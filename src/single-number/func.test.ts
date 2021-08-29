@@ -1,15 +1,7 @@
 function singleNumber(nums: number[]): number {
   let res = 0
-  const rows = []
   for (const num of nums) {
-    const targetLength = res.toString(2).length
-    const updatedRes = num ^ res
-    const updatedResAsBinaryString = updatedRes.toString(2)
-    const numAsBinaryString = num.toString(2).padStart(targetLength, "0")
-    const resAsBinaryString = res.toString(2).padStart(targetLength, "0")
-    const paddedResAsBinaryString = updatedResAsBinaryString.padStart(targetLength, "0")
-    rows.push({ res, resAsBinaryString, num, numAsBinaryString, updatedRes, paddedResAsBinaryString })
-    res = updatedRes
+    res = num ^ res
   }
   return res
 }
