@@ -1,13 +1,17 @@
 function removeElement(nums: number[], val: number): number {
   let i = 0
-  for (let j = 0; j < nums.length; j++) {
-    if (nums[j] !== val) {
-      nums[i] = nums[j]
+  let n = nums.length
+  while (i < n) {
+    if (nums[i] === val) {
+      nums[i] = nums[n - 1]
+      // reduce array size by one
+      n--
+    } else {
       i++
     }
   }
 
-  return i
+  return n
 }
 
 describe("removeElement", () => {
