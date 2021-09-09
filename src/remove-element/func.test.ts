@@ -1,36 +1,30 @@
 function removeElement(nums: number[], val: number): number {
-  let result = 0
-  let indexToBeUpdated = 0
+  const originalNums = [...nums].join(",")
+  let numberOfSplices = 0
+  let rightPointer = nums.length - 1
   const rows = []
-  const lastIndex = nums.length - 1
-  for (let i = 0; i < nums.length; i++) {
+  for (let i = 0; i <= rightPointer; i++) {
     if (nums.length > 100) {
       throw new Error("You created an infinte loop")
     }
-    const islastIndex = i === lastIndex
-    const before = [...nums].join(",")
-    const currentIndex = i
-    const nextIndex = i + 1
-    const [current, next] = [nums[i], nums[nextIndex]]
-    // When are we able to splice?
 
-    const shouldSplice = current === val && !islastIndex
-
-    // last element
-    if (islastIndex) {
-    } else {
-      // all other elements
-      nums.splice(indexToBeUpdated, 2, next, 81)
-      indexToBeUpdated++
-      if (nextIndex !== lastIndex) {
-        result++
-      }
+    const leftElement = nums[i]
+    const rightElement = nums[rightPointer]
+    if (leftElement === val) {
+      numberOfSplices++
+      nums.splice(i, 1, rightElement)
+      nums.splice(rightPointer, 1, leftElement)
     }
+    if (rightElement === val) {
+      i--
+      rightPointer--
+    }
+    const newNums = [...nums].join(",")
 
-    const after = [...nums].join(",")
-    const row = { islastIndex, current, next, shouldSplice, indexToBeUpdated, numsBefore: before, numsAfter: after }
+    const row = { originalNums, i, rightPointer, newNums }
     rows.push(row)
   }
+  const result = nums.length - numberOfSplices
   console.table(rows)
   console.log({ result })
   return result
@@ -42,9 +36,9 @@ describe("removeElement", () => {
     const val = 3
     const actualResult = removeElement(nums, val)
     const expectedResult = 2
+    const expectedNums = [2, 2].sort()
     expect(actualResult).toEqual(expectedResult)
-    expect(nums[0]).toEqual(2)
-    expect(nums[1]).toEqual(2)
+    expect(nums.slice(0, expectedResult).sort()).toEqual(expectedNums)
   })
 
   it("returns 5 when nums = [0,1,2,2,3,0,4,2], val = 2", () => {
@@ -52,11 +46,8 @@ describe("removeElement", () => {
     const val = 2
     const actualResult = removeElement(nums, val)
     const expectedResult = 5
+    const expectedNums = [0, 1, 3, 0, 4].sort()
     expect(actualResult).toEqual(expectedResult)
-    expect(nums[0]).toEqual(0)
-    expect(nums[1]).toEqual(1)
-    expect(nums[2]).toEqual(3)
-    expect(nums[3]).toEqual(0)
-    expect(nums[4]).toEqual(4)
+    expect(nums.slice(0, expectedResult).sort()).toEqual(expectedNums)
   })
 })
