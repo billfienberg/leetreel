@@ -36,7 +36,7 @@ describe("removeElement", () => {
     const val = 3
     const actualResult = removeElement(nums, val)
     const expectedResult = 2
-    const expectedNums = [2, 2].sort()
+    const expectedNums = nums.filter((x) => x !== val).sort()
     expect(actualResult).toEqual(expectedResult)
     expect(nums.slice(0, expectedResult).sort()).toEqual(expectedNums)
   })
@@ -46,7 +46,17 @@ describe("removeElement", () => {
     const val = 2
     const actualResult = removeElement(nums, val)
     const expectedResult = 5
-    const expectedNums = [0, 1, 3, 0, 4].sort()
+    const expectedNums = nums.filter((x) => x !== val).sort()
+    expect(actualResult).toEqual(expectedResult)
+    expect(nums.slice(0, expectedResult).sort()).toEqual(expectedNums)
+  })
+
+  it("returns 1 when nums = [4,5], val = 4", () => {
+    const nums = [4, 5]
+    const val = 4
+    const actualResult = removeElement(nums, val)
+    const expectedResult = 1
+    const expectedNums = nums.filter((x) => x !== val).sort()
     expect(actualResult).toEqual(expectedResult)
     expect(nums.slice(0, expectedResult).sort()).toEqual(expectedNums)
   })
